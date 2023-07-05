@@ -7,17 +7,16 @@ import mainRoutes from './routes/index.js';
 dotenv.config();
 
 const server = express();
-const __dir = import.meta.url
+const __dir = path.resolve();
 const port = process.env.PORT;
 
 server.set('view engine', 'mustache');
-server.set('views', path.join(__dir, 'views'));
+server.set('views', path.join(__dir, 'src/views'));
 server.engine('mustache', mustache());
-server.use(express.static(path.join(__dir, '../public')));
-server.use(express.json());
+server.use(express.static(path.join(__dir, './public')));
 
 //Rotas
 server.use(mainRoutes);
-server.use((req, res) => res.send('404 - Página não encontrada. 😥'));
+server.use((req, res) => res.render('pages/404'));
 
 server.listen(port, console.log(`Servidor rodando na porta ${port}.`));
